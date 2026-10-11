@@ -224,7 +224,7 @@ class _PuzzleGameState extends State<PuzzleGame> {
         child: OverflowBox(
           maxWidth: boardSize,
           maxHeight: boardSize,
-          alignment: Alignment(-1 + 2 * col, -1 + 2 * row),
+          alignment: Alignment(-1.0 + 2 * col, -1.0 + 2 * row),
           child: SizedBox(
             width: boardSize,
             height: boardSize,

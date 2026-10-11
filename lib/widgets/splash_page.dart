@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../pages/home_page.dart';
 import '../theme/app_theme.dart';
-import 'home_page.dart';
 
 /// صفحه شروع با انیمیشن
 class SplashPage extends StatefulWidget {

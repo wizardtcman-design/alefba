@@ -1,0 +1,76 @@
+name: Build APK & Release
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: ساخت APK و انتشار نسخه
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Generate Android platform files
+        run: flutter create . --platforms android --org ir.alefbaman --project-name alefba
+
+      - name: Set Persian app label
+        run: |
+          sed -i 's|android:label="alefba"|android:label="الفبای من"|' android/app/src/main/AndroidManifest.xml
+
+      - name: Generate app icons
+        run: dart run flutter_launcher_icons
+
+      - name: Pub get
+        run: flutter pub get
+
+      - name: Build release APK
+        run: flutter build apk --release
+
+      - name: Read version from pubspec
+        id: ver
+        run: |
+          V=$(grep -m1 '^version:' pubspec.yaml | awk '{print $2}' | cut -d '+' -f 1)
+          echo "version=$V" >> "$GITHUB_OUTPUT"
+
+      - name: Rename APK
+        run: |
+          mkdir -p dist
+          cp build/app/outputs/flutter-apk/app-release.apk "dist/alefba-v${{ steps.ver.outputs.version }}.apk"
+
+      - name: Remove old release with the same version (idempotent)
+        run: |
+          gh release delete "v${{ steps.ver.outputs.version }}" --yes --cleanup-tag || true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.ver.outputs.version }}
+          name: نسخه ${{ steps.ver.outputs.version }}
+          body: |
+            ## اپلیکیشن «الفبای من» — نسخه ${{ steps.ver.outputs.version }}
+
+            - فایل `alefba-v${{ steps.ver.outputs.version }}.apk` را دانلود و روی گوشی اندروید نصب کنید.
+            - تغییرات این نسخه در بخش Commits قابل مشاهده است.
+          files: dist/alefba-v${{ steps.ver.outputs.version }}.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

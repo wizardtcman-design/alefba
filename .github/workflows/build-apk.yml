@@ -41,8 +41,8 @@ jobs:
       - name: 🏗 ساخت فایل‌های پلتفرم اندروید
         run: >
           flutter create .
-          --org ir.persiankids
-          --project-name first_grade_persian
+          --org ir.alefbaman
+          --project-name alefba
           --platforms=android
 
       - name: 🔧 اعمال پچ اندروید (آفلاین + نام فارسی)

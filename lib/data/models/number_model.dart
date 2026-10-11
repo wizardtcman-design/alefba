@@ -1,4 +1,5 @@
 import '../../core/utils.dart';
+import '../numbers_data.dart';
 
 /// مدل هر عدد از ۰ تا ۱۰۰
 class NumberModel {

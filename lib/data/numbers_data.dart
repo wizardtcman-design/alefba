@@ -1,6 +1,8 @@
 import '../core/utils.dart';
 import 'models/number_model.dart';
 
+export 'models/number_model.dart';
+
 /// مولد اعداد ۰ تا ۱۰۰ + نام فارسی + ایموجی شمارش
 class NumbersData {
   NumbersData._();

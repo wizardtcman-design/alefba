@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../core/app_colors.dart';
 import '../core/utils.dart';
+import '../services/audio_service.dart';
 import '../state/app_state.dart';
 import '../widgets/bouncy_button.dart';
 import '../widgets/common_widgets.dart';

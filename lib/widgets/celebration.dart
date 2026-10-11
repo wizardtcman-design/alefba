@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../core/app_colors.dart';
+import 'bouncy_button.dart';
 
 /// بارش ستاره و قلب هنگام جشن موفقیت — بدون پکیج خارجی
 class ConfettiOverlay extends StatefulWidget {

@@ -22,7 +22,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late final List<AnimationController> _entrance;
-  late final List<Animation<double>> _slides;
+  late final List<Animation<Offset>> _slides;
 
   @override
   void initState() {

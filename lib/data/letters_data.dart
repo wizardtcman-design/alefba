@@ -1,5 +1,7 @@
 import 'models/letter_model.dart';
 
+export 'models/letter_model.dart';
+
 /// دیتای کامل ۳۳ حرف الفبا — به ترتیب استاندارد کتاب فارسی اول دبستان
 /// (آ تا ی) همراه با کلمه شاهد، بخش‌بندی هجایی و ایموجی
 class LettersData {

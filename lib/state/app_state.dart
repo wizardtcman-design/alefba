@@ -34,7 +34,12 @@ class AppState extends ChangeNotifier {
   Map<int, LetterProgress> _letters = {};
   Map<int, NumberProgress> _numbers = {};
   ({int totalSeconds, int todaySeconds, String lastDay, int maxNumberPlayed})
-      _stats;
+      _stats = (
+    totalSeconds: 0,
+    todaySeconds: 0,
+    lastDay: '',
+    maxNumberPlayed: 0,
+  );
   String _today = '';
 
   Timer? _sessionTimer;

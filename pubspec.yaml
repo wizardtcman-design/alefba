@@ -1,0 +1,57 @@
+name: first_grade_persian
+description: >-
+  آموکیشن آموزش الفبا و اعداد برای کلاس اول دبستان ایران.
+  کاملاً فارسی، کاملاً آفلاین، با صدا، تصویر و بازی.
+publish_to: "none"
+version: 1.1.0+2
+
+environment:
+  sdk: ">=3.4.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  # مدیریت state ساده و رسمی
+  provider: ^6.1.2
+  # ذخیره‌سازی محلی پیشرفت کودک (کاملاً آفلاین)
+  shared_preferences: ^2.3.2
+  # پخش صداهای داخل اپ (آفلاین)
+  just_audio: ^0.9.40
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  # ساخت خودکار آیکون لانچر اندروید از assets/images/mascot/fox.png
+  flutter_launcher_icons: ^0.14.1
+
+flutter:
+  uses-material-design: true
+
+  fonts:
+    - family: Vazirmatn
+      fonts:
+        - asset: assets/fonts/Vazirmatn-Regular.ttf
+        - asset: assets/fonts/Vazirmatn-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Vazirmatn-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Vazirmatn-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Vazirmatn-Black.ttf
+          weight: 900
+
+  assets:
+    - assets/audio/letters/
+    - assets/audio/numbers/
+    - assets/audio/sfx/
+    - assets/images/letters/
+    - assets/images/mascot/
+
+# آیکون لانچر — در CI با «dart run flutter_launcher_icons» ساخته می‌شود
+flutter_launcher_icons:
+  android: true
+  image_path: "assets/images/mascot/fox.png"
+  adaptive_icon_background: "#FDF6F0"
+  adaptive_icon_foreground: "assets/images/mascot/fox.png"

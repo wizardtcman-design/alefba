@@ -1,0 +1,84 @@
+# ============================================================
+#  ساخت خودکار APK برای اپلیکیشن «آموزش کلاس اول»
+# ------------------------------------------------------------
+#  ⏺ هر پوش به main        → ساخت APK + آپلود در Artifact های همان اجرا
+#  ⏺ هر تگ نسخه (v1.0.0 …) → ساخت APK + انتشار در بخش Releases ریپو
+#  ⏺ اجرای دستی            → از تب Actions دکمه Run workflow
+# ============================================================
+name: Build APK
+
+on:
+  push:
+    branches: [ "main" ]
+    tags: [ "v*" ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: 📥 دریافت سورس
+        uses: actions/checkout@v4
+
+      - name: ☕ نصب Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: 🐦 نصب Flutter (آخرین نسخه پایدار)
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: 🏗 ساخت فایل‌های پلتفرم اندروید
+        run: >
+          flutter create .
+          --org ir.persiankids
+          --project-name first_grade_persian
+          --platforms=android
+
+      - name: 🔧 اعمال پچ اندروید (آفلاین + نام فارسی)
+        run: bash tool/apply_android_patch.sh
+
+      - name: 📦 نصب پکیج‌ها
+        run: flutter pub get
+
+      - name: 🎨 ساخت آیکون‌های لانچر
+        run: dart run flutter_launcher_icons || true
+
+      - name: 🚀 ساخت APK
+        run: flutter build apk --release
+
+      - name: 📤 آپلود Artifact (در هر پوش)
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: error
+
+      - name: 🏷 انتشار در Releases (فقط وقتی تگ منتشر شد)
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/app/outputs/flutter-apk/app-release.apk
+          name: نسخه ${{ github.ref_name }}
+          body: |
+            🎉 نسخه جدید اپلیکیشن **آموزش کلاس اول** منتشر شد!
+
+            ### 📱 نصب
+            1. فایل `app-release.apk` را از بخش **Assets** همین صفحه دانلود کنید.
+            2. روی گوشی اندرویدی نصب کنید (اجازه نصب از منابع ناشناس را موقتاً فعال کنید).
+
+            ### ✨ ویژگی‌ها
+            - ۳۳ حرف الفبا به ترتیب کتاب درسی + اعداد ۰ تا ۱۰۰
+            - صدای تلفظ فارسی، تمرین نوشتن و ۷ نوع بازی
+            - کاملاً آفلاین، بدون تبلیغ و بدون مجوز اینترنت
+          fail_on_unmatched_files: true

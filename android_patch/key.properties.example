@@ -1,0 +1,37 @@
+// امضایRelease برای انتشار در کافه‌بازار
+// ۱) این فایل را به android/key.properties.example کپی و مقادیر را پر کنید
+// ۲) در android/app/build.gradle این قطعه را اضافه کنید:
+//
+//    def keystoreProperties = new Properties()
+//    def keystorePropertiesFile = rootProject.file('key.properties')
+//    if (keystorePropertiesFile.exists()) {
+//        keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+//    }
+//
+//    android {
+//        signingConfigs {
+//            release {
+//                keyAlias keystoreProperties['keyAlias']
+//                keyPassword keystoreProperties['keyPassword']
+//                storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+//                storePassword keystoreProperties['storePassword']
+//            }
+//        }
+//        buildTypes {
+//            release {
+//                signingConfig signingConfigs.release
+//                minifyEnabled true
+//                shrinkResources true
+//            }
+//        }
+//    }
+//
+// ساخت کلید:
+//   keytool -genkey -v -keystore ~/upload-keystore.jks -keyalg RSA \
+//           -keysize 2048 -validity 10000 -alias upload
+//
+// نمونه محتوای key.properties:
+//   storePassword=xxxx
+//   keyPassword=xxxx
+//   keyAlias=upload
+//   storeFile=/home/<user>/upload-keystore.jks

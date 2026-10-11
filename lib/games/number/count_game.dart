@@ -174,7 +174,7 @@ class _CountGameState extends State<CountGame> {
                             ),
                           ],
                         ],
-                      ],
+                      ),
                     ],
                   ),
                 ),
